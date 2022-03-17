@@ -9,7 +9,7 @@ router.post('/create', (req, res, next) => {
 
     new Person(person).save().then(() => {
         console.log("Doc created")
-        res.status(201).send("Done")
+        res.status(201).send("Doc created")
     }).catch(err => {
         console.log("Error creating doc")
         next({status: 400, message: err.message});
@@ -27,6 +27,7 @@ router.post('/create', (req, res, next) => {
 })
 
 router.get('/getAll', (req, res, next) => {
+    
     Person.find((err, people) => {
         if (err) {
             console.log("Was not able to list people")
@@ -53,17 +54,33 @@ router.get('/getById/:id', (req, res, next) => {
     })
 })
 
-router.put('/put/:id', (req, res, next) => {
-    let id = req.params.id
-    let newQuery = req.query
-    names.splice(id, 1, newQuery)
-    res.status(202).json(names[id])
+router.put('/update/:id', (req, res, next) => {
+    
+    const id = req.params.id
+    const person = req.body
+    
+    Person.findByIdAndUpdate(id, person, (err, replaced) => {
+        if (err) {
+            console.log("Was not able to update doc")
+            return next({status: 400, message: err.message})
+        } else {
+            console.log("Doc updated")
+            return res.status(202).json(replaced)
+        }
+    })  
 })
 
 router.delete('/DeleteById/:id', (req, res) => {
     let id = req.params.id
-    names.splice(id - 1, 1)
-    res.send(names)
+    Person.findByIdAndDelete(id, (err) => {
+        if (err) {
+            console.log("Was not able to delete doc")
+            return next({status: 400, message: err.message})
+        } else {
+            console.log("Doc deleted")
+            return res.status(204).send("Doc deleted")
+        }
+    })
 
 })
 
