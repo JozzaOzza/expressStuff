@@ -26,3 +26,5 @@ app.use((err, req, res, next) => {
 })
 
 app.use('/person', personRouter)
+
+module.exports = server;

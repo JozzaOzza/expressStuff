@@ -1,7 +1,7 @@
 const router = require("express").Router()
 const Person = require("../db")
 
-let names = ["Jamie", "Bobby", "Gary", "Sarah"]
+
 
 router.post('/create', (req, res, next) => {
     
@@ -12,7 +12,7 @@ router.post('/create', (req, res, next) => {
         res.status(201).send("Doc created")
     }).catch(err => {
         console.log("Error creating doc")
-        next({status: 400, message: err.message});
+        next({status: 400, message: "Error creating doc"});
     })
         
         // if (err) {
@@ -31,7 +31,7 @@ router.get('/getAll', (req, res, next) => {
     Person.find((err, people) => {
         if (err) {
             console.log("Was not able to list people")
-            return next({status: err.status, message: err.message})
+            return next({status: 400, message: err.message})
         }
         else {
             console.log("People listed")
@@ -70,7 +70,7 @@ router.put('/update/:id', (req, res, next) => {
     })  
 })
 
-router.delete('/DeleteById/:id', (req, res) => {
+router.delete('/delete/:id', (req, res) => {
     let id = req.params.id
     Person.findByIdAndDelete(id, (err) => {
         if (err) {
