@@ -46,7 +46,7 @@ router.get('/getById/:id', (req, res, next) => {
 
     Person.find((err, people) => {
         if (err) {
-            return next({status: err.status, message: err.message})
+            return next({status: 400, message: err.message})
         }
         else {
             return res.json(people[id])

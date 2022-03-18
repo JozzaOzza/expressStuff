@@ -62,14 +62,17 @@ describe("CRUD tests", () => {
         })
     })
 
-    it("Should NOT get all", (done) => {
+    it("Should get by ID", (done) => {
 
-        chai.request(server).post('/person/getAll')
+        chai.request(server).get(`/person/getById/0`)
         .end((err, res) => {
             expect(err).to.be.null
-            expect(res).to.have.status(404)
+            expect(res).to.have.status(200)
+            expect(res.body).to.haveOwnProperty('name', 'Bob')
             return done()
         })
-    })
+    }) 
+    
+    
 
 })
