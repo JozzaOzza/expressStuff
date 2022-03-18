@@ -73,6 +73,26 @@ describe("CRUD tests", () => {
         })
     }) 
     
-    
+    it("should update by ID", (done) => {
+
+      chai.request(server).put(`/person/update/${testPerson.id}`)
+      .send({
+        'name': "Diego"
+      }).end((err, res) => {
+        expect(err).to.be.null
+        expect(res).to.have.status(202)
+        return done()
+      })
+    })
+
+    it("should NOT update by ID", (done) => {
+
+      chai.request(server).delete(`/person/delete/${testPerson.id}`)
+      .end((err, res) => {
+        expect(err).to.be.null
+        expect(res).to.have.status(204)
+        return done()
+      })
+    })
 
 })
