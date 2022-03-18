@@ -85,7 +85,7 @@ describe("CRUD tests", () => {
       })
     })
 
-    it("should NOT update by ID", (done) => {
+    it("should delete by ID", (done) => {
 
       chai.request(server).delete(`/person/delete/${testPerson.id}`)
       .end((err, res) => {
